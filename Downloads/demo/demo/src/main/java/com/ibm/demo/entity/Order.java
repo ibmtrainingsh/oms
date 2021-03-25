@@ -1,13 +1,25 @@
 package com.ibm.demo.entity;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 
 public class Order {
 	  @NotNull
+	  @NotBlank
       private String item;
+	  @NotNull
       private float price;
+      private int id;
       
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public float getPrice() {
 		return price;
 	}
