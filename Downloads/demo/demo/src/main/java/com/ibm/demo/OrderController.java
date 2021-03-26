@@ -23,47 +23,49 @@ import com.ibm.demo.service.OrderService;
 
 @RestController
 public class OrderController {
-	  @Autowired  //used for DI
-	  OrderService orderService;  //DI
-	  @PostMapping("/order")
-	  @ResponseStatus(code = HttpStatus.CREATED)
-      String createOrder(@RequestBody @Valid Order order,BindingResult bindingResult) {
-		  if(bindingResult.hasErrors()) {
-			  throw new IllegalArgumentException("Something went wrong.Please retry");
-		  }
-		  System.out.println(order);
-    	  return orderService.createOrder(order);
-      }
-	  
-	  @GetMapping("/order")
-	  List<Order> getOrder() {
-		  return orderService.getOrder();
-	  }
-	  @GetMapping("/order/{id}")
-	  Order getOrder(@PathVariable("id") int orderId) {
-		  return orderService.getOrder(orderId);
-	  }
-	  String getOrder(Order order) {
-		  System.out.println(order);
-		  return orderService.getOrder(order);
-	  }
-	  private void validateModel(Errors bindingResult) {
-		  if(bindingResult.hasErrors()) {
-			  throw new IllegalArgumentException("Something went wrong.Please retry");
-		  }
-	  }
-	  //DRY
-	  @PutMapping("/order/{id}")
-	  void updateOrder(@RequestBody @Valid Order order,BindingResult bindingResult,@PathVariable("id") int orderId) {
-		  validateModel(bindingResult);
-		  System.out.println(orderId);
-		  orderService.updateOrder(orderId);
-	  }
-	  
-	  @DeleteMapping("/order/{id}")
-	void deleteOrder(@PathVariable("id") int orderId) {
-		  System.out.println(orderId);
-		  orderService.deleteOrder(orderId);
-	  }
-} 
+	@Autowired // used for DI
+	OrderService orderService; // DI
 
+	@PostMapping("/order")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	String createOrder(@RequestBody @Valid Order order, BindingResult bindingResult) {
+		validateModel(bindingResult);
+		System.out.println(order);
+		return orderService.createOrder(order);
+	}
+
+	@GetMapping("/order")
+	List<Order> getOrder() {
+		return orderService.getOrder();
+	}
+
+	@GetMapping("/order/{id}")
+	Order getOrder(@PathVariable("id") int orderId) {
+		return orderService.getOrder(orderId);
+	}
+
+	String getOrder(Order order) {
+		System.out.println(order);
+		return orderService.getOrder(order);
+	}
+
+	private void validateModel(Errors bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new IllegalArgumentException("Something went wrong.Please retry");
+		}
+	}
+
+	// DRY
+	@PutMapping("/order/{id}")
+	void updateOrder(@RequestBody @Valid Order order, BindingResult bindingResult, @PathVariable("id") int orderId) {
+		validateModel(bindingResult);
+		System.out.println(orderId);
+		orderService.updateOrder(orderId);
+	}
+
+	@DeleteMapping("/order/{id}")
+	void deleteOrder(@PathVariable("id") int orderId) {
+		System.out.println(orderId);
+		orderService.deleteOrder(orderId);
+	}
+}
