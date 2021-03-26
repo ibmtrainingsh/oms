@@ -1,6 +1,7 @@
 package com.ibm.demo;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,9 +39,14 @@ public class OrderController {
 	List<Order> getOrder() {
 		return orderService.getOrder();
 	}
+	/**
+	 * method to search for an order
+	 * @param orderId
+	 * @return zero or matching order
+	 */
 
 	@GetMapping("/order/{id}")
-	Order getOrder(@PathVariable("id") int orderId) {
+	Optional<Order> getOrder(@PathVariable("id") String orderId) {
 		return orderService.getOrder(orderId);
 	}
 
@@ -57,10 +63,11 @@ public class OrderController {
 
 	// DRY
 	@PutMapping("/order/{id}")
-	void updateOrder(@RequestBody @Valid Order order, BindingResult bindingResult, @PathVariable("id") int orderId) {
+	void updateOrder(@RequestBody @Valid Order order, BindingResult bindingResult, @PathVariable("id") String orderId) {
 		validateModel(bindingResult);
 		System.out.println(orderId);
-		orderService.updateOrder(orderId);
+		order.setId(orderId);
+		orderService.updateOrder(order);
 	}
 
 	@DeleteMapping("/order/{id}")
