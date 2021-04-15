@@ -8,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class UserformComponent implements OnInit {
   title:string='Userform';
   firstname:string='Ram'
+  age:number=12;
   constructor() { }
+  save(){
+    console.log('working...');
+    console.log(this.firstname);
+    this.firstname='John';
+    console.log(this.age);
 
+  }
   ngOnInit(): void {
   }
 
